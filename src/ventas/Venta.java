@@ -20,6 +20,12 @@ public class Venta {
         this.sucursal = sucursal;
     }
     
+    public int getId() { return id; }
+    public Date getFecha() { return fecha; }
+    public List<ItemVenta> getItemsVenta() { return itemsVenta; }
+    public EncargadoVentas getEncargado() { return encargado; }
+    public Sucursal getSucursal() { return sucursal; };
+    
     public void agregarItem(ItemVenta item) {
         this.itemsVenta.add(item);
     }
@@ -34,11 +40,4 @@ public class Venta {
         return total;
     }
 
-    public int getId() { return id; }
-    
-    public Date getFecha() { return fecha; }
-    
-    public List<ItemVenta> getItemsVenta() { 
-        return itemsVenta; 
-    }
 }

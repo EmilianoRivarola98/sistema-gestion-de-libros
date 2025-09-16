@@ -17,12 +17,13 @@ public class AdministradorGeneral extends Usuario implements Menu {
             "Eliminar stock",
             "Generar pedido de faltantes",
             "Gestionar promociones",
+            "Consultar reportes",
             "Salir"
         };
 
         int seleccion = 0;
 
-        while (seleccion != 6) { 
+        while (seleccion != 7) { 
             seleccion = JOptionPane.showOptionDialog(
                 null,
                 "Menú Administrador General",
@@ -41,7 +42,8 @@ public class AdministradorGeneral extends Usuario implements Menu {
                 case 3: eliminarStock(); break;
                 case 4: generarPedidoFaltantes(); break;
                 case 5: gestionarPromociones(); break;
-                case 6: JOptionPane.showMessageDialog(null, "Saliendo del menú de administrador"); break;
+                case 6: gestionarReportes(); break;
+                case 7: JOptionPane.showMessageDialog(null, "Saliendo del menú de administrador"); break;
                 default: JOptionPane.showMessageDialog(null, "Opción no válida");
             }
         }
@@ -70,5 +72,8 @@ public class AdministradorGeneral extends Usuario implements Menu {
 
     private void gestionarPromociones() {
         JOptionPane.showMessageDialog(null, "Función Gestionar promociones");
+    }
+    private void gestionarReportes() {
+        JOptionPane.showMessageDialog(null, "Función Reportes");
     }
 }

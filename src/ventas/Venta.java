@@ -1,6 +1,6 @@
 package ventas;
 
-import usuarios.EncargadoVentas;
+import usuarios.EncargadodeVentas;
 import java.util.Date;
 import java.util.List;
 import java.math.BigDecimal;
@@ -10,10 +10,10 @@ public class Venta {
     private int id;
     private Date fecha;
     private List<ItemVenta> itemsVenta = new ArrayList<>(); 
-    private EncargadoVentas encargado;
+    private EncargadodeVentas encargado;
     private Sucursal sucursal;
 
-    public Venta(int id, Date fecha, EncargadoVentas encargado, Sucursal sucursal) {
+    public Venta(int id, Date fecha, EncargadodeVentas encargado, Sucursal sucursal) {
         this.id = id;
         this.fecha = fecha;
         this.encargado = encargado;
@@ -23,7 +23,7 @@ public class Venta {
     public int getId() { return id; }
     public Date getFecha() { return fecha; }
     public List<ItemVenta> getItemsVenta() { return itemsVenta; }
-    public EncargadoVentas getEncargado() { return encargado; }
+    public EncargadodeVentas getEncargado() { return encargado; }
     public Sucursal getSucursal() { return sucursal; };
     
     public void agregarItem(ItemVenta item) {

@@ -23,3 +23,9 @@ El objetivo principal es reemplazar el sistema actual de gestión de ventas, bas
 ### 🔷 Diagrama de Casos de Uso
 
 [Ver PDF de Casos de Uso](assets/CASOS_DE_USOS__clavijo_debandi_rivarola.pdf)
+
+---
+
+### 🔷 SRS
+
+[Ver PDF de SRS](assets/SRS_clavijo_debandi_rivarola.pdf)

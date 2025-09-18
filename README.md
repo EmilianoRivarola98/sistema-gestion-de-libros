@@ -8,13 +8,19 @@ El objetivo principal es reemplazar el sistema actual de gestión de ventas, bas
 
 ---
 
-### 🔷 Diagrama de Clases
+### 🔷 SRS
 
-[Ver PDF de Diagrama de Clases](assets/DIAGRAMA_DE_CLASES_clavijo_debandi_rivarola.pdf)
+[Ver PDF de SRS](assets/SRS_clavijo_debandi_rivarola.pdf)
 
 ---
 
-### 🔷 Modelo Lógico (DER)
+### 🔷 Elicitación(Entrevista/Preguntas)
+
+[Ver PDF de Entrevista](assets/ENTREVISTA_clavijo_debandi_rivarola.pdf)
+
+---
+
+### 🔷 Diagrama de entidad relación
 
 [Ver PDF del Modelo DER](assets/EDR_clavijo_debandi_rivarola.pdf)
 
@@ -26,6 +32,6 @@ El objetivo principal es reemplazar el sistema actual de gestión de ventas, bas
 
 ---
 
-### 🔷 SRS
+### 🔷 Diagrama de Clases
 
-[Ver PDF de SRS](assets/SRS_clavijo_debandi_rivarola.pdf)
+[Ver PDF de Diagrama de Clases](assets/DIAGRAMA_DE_CLASES_clavijo_debandi_rivarola.pdf)

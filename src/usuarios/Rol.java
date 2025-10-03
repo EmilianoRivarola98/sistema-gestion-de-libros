@@ -1,19 +1,19 @@
-package ventas;
+package usuarios;
 
-public class Sucursal {
+public class Rol {
     private int id;
     private String nombre;
-    private String direccion;
+    private String descripcion;
     
-    public Sucursal(int id, String nombre, String direccion) {
+    public Rol(int id, String nombre, String descripcion) {
         this.id = id;
         this.nombre = nombre;
-        this.direccion = direccion;
+        this.descripcion = descripcion;
     }
     
-    public Sucursal(String nombre, String direccion) {
+    public Rol(String nombre, String descripcion) {
         this.nombre = nombre;
-        this.direccion = direccion;
+        this.descripcion = descripcion;
     }
     
     // Getters y Setters
@@ -23,11 +23,11 @@ public class Sucursal {
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
     
-    public String getDireccion() { return direccion; }
-    public void setDireccion(String direccion) { this.direccion = direccion; }
+    public String getDescripcion() { return descripcion; }
+    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
     
     @Override
     public String toString() {
-        return nombre + " - " + direccion;
+        return nombre;
     }
 }

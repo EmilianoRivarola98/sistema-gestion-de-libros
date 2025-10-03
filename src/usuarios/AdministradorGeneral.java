@@ -1,11 +1,15 @@
 package usuarios;
 
 import interfaces.Menu;
+import interfaces.GestionUsuarios;
 import javax.swing.JOptionPane;
 
 public class AdministradorGeneral extends Usuario implements Menu {
-    public AdministradorGeneral(String nombre, String username) {
-        super(nombre, username);
+    private GestionUsuarios gestionUsuarios;
+    
+    public AdministradorGeneral(int id, String nombre, String email, String password, int idRol, int idSucursal) {
+        super(id, nombre, email, password, idRol, idSucursal);
+        this.gestionUsuarios = new GestionUsuarios();
     }
 
     @Override
@@ -51,7 +55,7 @@ public class AdministradorGeneral extends Usuario implements Menu {
 
     // Métodos
     private void gestionarUsuarios() {
-        JOptionPane.showMessageDialog(null, "Función Gestionar usuarios");
+        gestionUsuarios.mostrarMenuGestionUsuarios();
     }
 
     private void agregarStock() {

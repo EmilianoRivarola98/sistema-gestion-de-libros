@@ -3,8 +3,8 @@ import interfaces.Menu;
 import javax.swing.JOptionPane;
 
 public class EncargadodeVentas extends Usuario implements Menu{
-    public EncargadodeVentas(String nombre, String username) {
-		super(nombre, username);
+    public EncargadodeVentas(int id, String nombre, String email, String password, int idRol, int idSucursal) {
+		super(id, nombre, email, password, idRol, idSucursal);
 	
 	}
 

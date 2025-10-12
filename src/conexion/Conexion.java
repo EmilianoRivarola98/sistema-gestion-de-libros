@@ -2,17 +2,16 @@ package conexion;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;
-
-import com.mysql.jdbc.Connection;
+import java.sql.Connection;
 
 public class Conexion {
 	private static String URL ="jdbc:mysql://localhost:3306/libreria_gestion";//cambiar "base-de-datos" por el nombre correspondiente
 	private static String USER = "root";
 	private static String PASSWORD ="";
-	
+
 	private static Connection conect;
 	private static Conexion instance;
-	
+
 	private Conexion() {
 		try {
 			conect =  (Connection) DriverManager.getConnection(URL,USER,PASSWORD);

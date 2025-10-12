@@ -1,38 +1,47 @@
 package app;
 
 import javax.swing.JOptionPane;
-import usuarios.EncargadodeVentas;
-import usuarios.AdministradorGeneral;
+import interfaces.GestionUsuarios;
 
 public class IniciarPrograma {
 
     public void iniciar() {
-        String[] roles = { "Vendedor", "Administrador" };
+            String[] opciones = {
+                "Iniciar sesion",
+                "Registrarse",
+                "Salir"
+            };
 
-        String rolSeleccionado = (String) JOptionPane.showInputDialog(
-                null,
-                "Bienvenido. Seleccione su rol:",
-                "Inicio de sesión",
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                roles,
-                roles[0]
-        );
+            int seleccion = 0;
 
-        if (rolSeleccionado == null) {
-            JOptionPane.showMessageDialog(null, "Saliendo del sistema");
-            System.exit(0);
-        }
+                while (seleccion != 2) {
+                seleccion = JOptionPane.showOptionDialog(
+                    null,
+                    "Seleccione una opción",
+                    "Sistema Gestion de Libros",
+                    JOptionPane.DEFAULT_OPTION,
+                    JOptionPane.INFORMATION_MESSAGE,
+                    null,
+                    opciones,
+                    opciones[0]
+                );
 
-        String username = JOptionPane.showInputDialog("Ingrese su usuario:");
-        String nombre = JOptionPane.showInputDialog("Ingrese su nombre:");
+                    if (seleccion == -1) {
+                        seleccion = 2;
+                    }
 
-        if (rolSeleccionado.equals("Vendedor")) {
-            EncargadodeVentas vendedor = new EncargadodeVentas(nombre, username);
-            vendedor.MostrarMenu();
-        } else if (rolSeleccionado.equals("Administrador")) {
-            AdministradorGeneral admin = new AdministradorGeneral(nombre, username);
-            admin.MostrarMenu();
-        }
+                switch (seleccion) {
+                        case 0: iniciarSesion(); break;
+                        case 1: registrarse(); break;
+                        case 2: JOptionPane.showMessageDialog(null, "Gracias vuelva prontos."); break;
+                }
+            }
+    }
+    private void iniciarSesion() {
+            new GestionUsuarios().iniciarSesion();
+    }
+
+    private void registrarse() {
+            new GestionUsuarios().registrarUsuario();
     }
 }

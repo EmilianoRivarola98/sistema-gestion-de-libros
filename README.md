@@ -1,3 +1,11 @@
+# Requisitos Previos
+
+Para poder ejecutar la aplicación, es necesario tener una instancia de MySQL en funcionamiento.
+
+Una vez que MySQL esté activo, debe ejecutar el script de base de datos que se encuentra en `assets/Sistema-gestion-libros.sql` para crear la estructura de la base de datos y cargar los datos iniciales.
+
+---
+
 # Sistema de Gestión de Librería
 
 ## Primera entrega - Programación Avanzada

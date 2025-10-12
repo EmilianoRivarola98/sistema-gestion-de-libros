@@ -197,6 +197,7 @@ CREATE TABLE `rol` (
 
 LOCK TABLES `rol` WRITE;
 /*!40000 ALTER TABLE `rol` DISABLE KEYS */;
+INSERT INTO `rol` VALUES (1,'Administrador General','Acceso total al sistema'),(2,'Encargado de Ventas','Acceso a funciones de venta y gestión de stock'),(3,'Usuario','Acceso limitado o de cliente');
 /*!40000 ALTER TABLE `rol` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -267,7 +268,7 @@ CREATE TABLE `usuario` (
   `password` varchar(100) NOT NULL,
   `id_rol` int(11) NOT NULL,
   `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `id_sucursal` int(11) NOT NULL,
+  `id_sucursal` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_usuario`),
   KEY `fk_usuario_rol` (`id_rol`),
   KEY `fk_usuario_sucursal_idx` (`id_sucursal`),

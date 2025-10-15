@@ -45,21 +45,21 @@ public class ServicioUsuario {
 		return usuarioDAO.obtenerUsuarioPorId(id);
 	}
 
-	    public Usuario obtenerUsuarioPorEmail(String email) {
+	public Usuario obtenerUsuarioPorEmail(String email) {
 
-	        return usuarioDAO.obtenerUsuarioPorEmail(email);
+		return usuarioDAO.obtenerUsuarioPorEmail(email);
 
-	    }
+	}
 
-	
 
-	    public boolean emailExiste(String email) {
 
-	        return usuarioDAO.emailExiste(email);
+	public boolean emailExiste(String email) {
 
-	    }
+		return usuarioDAO.emailExiste(email);
 
-	
+	}
+
+
 	public List<Usuario> obtenerTodosLosUsuarios() {
 		return usuarioDAO.obtenerTodosLosUsuarios();
 	}

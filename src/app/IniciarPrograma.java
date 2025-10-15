@@ -43,7 +43,7 @@ public class IniciarPrograma {
 					opciones[0]
 					);
 
-			if (seleccion == -1) { // Si el usuario cierra el diálogo
+			if (seleccion == -1) {
 				seleccion = 2;
 			}
 

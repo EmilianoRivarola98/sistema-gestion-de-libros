@@ -185,7 +185,7 @@ public class GestionUsuarios {
 		return usuario;
 	}
 
-	private void mostrarInformacionUsuario(Usuario usuario) {		Rol rol = servicioUsuario.obtenerRolPorId(usuario.getIdRol());
+	private void mostrarInformacionUsuario(Usuario usuario) {Rol rol = servicioUsuario.obtenerRolPorId(usuario.getIdRol());
 	String nombreRol = (rol != null) ? rol.getNombre() : "Rol no encontrado";
 
 	String nombreSucursal = "N/A";

@@ -314,15 +314,15 @@ public class GestionUsuarios {
 			String nombre = JOptionPane.showInputDialog(null, "Ingrese su nombre:");
 			if (nombre == null || nombre.trim().isEmpty()) return;
 
-			            String email = JOptionPane.showInputDialog(null, "Ingrese su email:");
-			            if (email == null || !Usuario.isValidEmail(email.trim())) {
-			                JOptionPane.showMessageDialog(null, "Email inválido.");
-			                return;
-			            }
-			            if (servicioUsuario.emailExiste(email.trim())) {
-			                JOptionPane.showMessageDialog(null, "Ya existe un usuario con ese email.", "Error", JOptionPane.ERROR_MESSAGE);
-			                return;
-			            }
+			String email = JOptionPane.showInputDialog(null, "Ingrese su email:");
+			if (email == null || !Usuario.isValidEmail(email.trim())) {
+				JOptionPane.showMessageDialog(null, "Email inválido.");
+				return;
+			}
+			if (servicioUsuario.emailExiste(email.trim())) {
+				JOptionPane.showMessageDialog(null, "Ya existe un usuario con ese email.", "Error", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
 			String password = JOptionPane.showInputDialog(null, "Ingrese su contraseña:");
 			if (password == null || password.trim().isEmpty()) return;
 
@@ -359,15 +359,15 @@ public class GestionUsuarios {
 			if (sucursalSeleccionada == -1) return;
 
 			// Crear usuario
-			            servicioUsuario.crearUsuario(
-			                nombre.trim(),
-			                email.trim(),
-			                password,
-			                rolUsuario.getId(),
-			                sucursales.get(sucursalSeleccionada).getId()
-			            );
-			
-			        } catch (Exception e) {			JOptionPane.showMessageDialog(null, "Error al registrar usuario: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			servicioUsuario.crearUsuario(
+					nombre.trim(),
+					email.trim(),
+					password,
+					rolUsuario.getId(),
+					sucursales.get(sucursalSeleccionada).getId()
+					);
+
+		} catch (Exception e) {			JOptionPane.showMessageDialog(null, "Error al registrar usuario: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 

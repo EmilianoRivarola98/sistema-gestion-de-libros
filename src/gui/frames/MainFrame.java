@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import gui.panels.BasePanel;
 import gui.panels.GestionUsuariosPanel;
 import gui.panels.GestionAutoresPanel;
+import gui.panels.GestionGenerosPanel;
 import usuarios.Usuario;
 import usuarios.Rol;
 import servicios.ServicioUsuario;
@@ -133,7 +134,8 @@ public class MainFrame extends JFrame {
     }
 
     private void mostrarPanelGeneros() {
-        JOptionPane.showMessageDialog(this, "Panel de Géneros - Próximamente", "En Desarrollo", JOptionPane.INFORMATION_MESSAGE);
+        GestionGenerosPanel panel = new GestionGenerosPanel();
+        mostrarPanel(panel);
     }
 
     private void mostrarPanelLibros() {

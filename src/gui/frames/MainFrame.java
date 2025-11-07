@@ -7,6 +7,7 @@ import gui.panels.BasePanel;
 import gui.panels.GestionUsuariosPanel;
 import gui.panels.GestionAutoresPanel;
 import gui.panels.GestionGenerosPanel;
+import gui.panels.GestionLibrosPanel;
 import usuarios.Usuario;
 import usuarios.Rol;
 import servicios.ServicioUsuario;
@@ -139,8 +140,10 @@ public class MainFrame extends JFrame {
     }
 
     private void mostrarPanelLibros() {
-        JOptionPane.showMessageDialog(this, "Panel de Libros - Próximamente", "En Desarrollo", JOptionPane.INFORMATION_MESSAGE);
+        GestionLibrosPanel panel = new GestionLibrosPanel();
+        mostrarPanel(panel);
     }
+ 
 
     private void mostrarPanelStock() {
         JOptionPane.showMessageDialog(this, "Panel de Stock - Próximamente", "En Desarrollo", JOptionPane.INFORMATION_MESSAGE);

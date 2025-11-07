@@ -26,6 +26,7 @@ public class ConfiguracionInicialFrame extends JFrame {
     private JButton btnCancelar;
     private ServicioSucursal servicioSucursal;
     private ServicioUsuario servicioUsuario;
+    private JPanel panelPrincipal;
     private int paso = 1;
 
     public ConfiguracionInicialFrame() {
@@ -43,7 +44,7 @@ public class ConfiguracionInicialFrame extends JFrame {
     }
 
     private void inicializar() {
-        JPanel panelPrincipal = new JPanel(new BorderLayout(10, 10));
+        panelPrincipal = new JPanel(new BorderLayout(10, 10));
         panelPrincipal.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         panelPrincipal.setBackground(new Color(240, 240, 240));
 
@@ -53,8 +54,9 @@ public class ConfiguracionInicialFrame extends JFrame {
         lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
         panelPrincipal.add(lblTitulo, BorderLayout.NORTH);
 
-        // Panel central (se actualizará según el paso)
+        // Panel central (se actualizará según el paso) - con nombre para poder actualizar
         JPanel panelContenido = crearPaso1();
+        panelContenido.setName("panelContenido");
         panelPrincipal.add(panelContenido, BorderLayout.CENTER);
 
         // Panel de botones
@@ -274,11 +276,19 @@ public class ConfiguracionInicialFrame extends JFrame {
     }
 
     private void actualizarVista() {
+        // Remover el panel anterior del BorderLayout CENTER
+        Component componente = panelPrincipal.getComponent(1); // Índice 1 es CENTER después de NORTH
+        if (componente != null) {
+            panelPrincipal.remove(1);
+        }
+        
+        // Agregar el nuevo panel
         JPanel panelContenido = crearPaso2();
-        this.remove(1); // Remover panel anterior
-        this.add(panelContenido, BorderLayout.CENTER, 1);
-        this.revalidate();
-        this.repaint();
+        panelContenido.setName("panelContenido");
+        panelPrincipal.add(panelContenido, BorderLayout.CENTER, 1);
+        
+        panelPrincipal.revalidate();
+        panelPrincipal.repaint();
     }
 
     private void cancelar() {

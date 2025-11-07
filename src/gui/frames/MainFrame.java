@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import gui.panels.BasePanel;
+import gui.panels.GestionUsuariosPanel;
 import usuarios.Usuario;
 import usuarios.Rol;
 import servicios.ServicioUsuario;
@@ -121,7 +122,8 @@ public class MainFrame extends JFrame {
 
     // Métodos para mostrar cada panel
     private void mostrarPanelUsuarios() {
-        JOptionPane.showMessageDialog(this, "Panel de Usuarios - Próximamente", "En Desarrollo", JOptionPane.INFORMATION_MESSAGE);
+        GestionUsuariosPanel panel = new GestionUsuariosPanel();
+        mostrarPanel(panel);
     }
 
     private void mostrarPanelAutores() {

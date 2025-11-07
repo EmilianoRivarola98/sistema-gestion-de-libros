@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import gui.panels.BasePanel;
 import gui.panels.GestionUsuariosPanel;
+import gui.panels.GestionAutoresPanel;
 import usuarios.Usuario;
 import usuarios.Rol;
 import servicios.ServicioUsuario;
@@ -81,14 +82,14 @@ public class MainFrame extends JFrame {
 
         menuBar.add(menuGestion);
 
-        // Menú Usuario
-        JMenu menuUsuario = new JMenu("Usuario");
-        menuUsuario.setMnemonic('U');
-        agregarMenuItemConAccion(menuUsuario, "Mi Perfil", 'P', e -> mostrarPerfil());
-        menuUsuario.addSeparator();
-        agregarMenuItemConAccion(menuUsuario, "Cerrar Sesión", 'C', e -> cerrarSesion());
+        // Menú Opciones
+        JMenu menuOpciones = new JMenu("Opciones");
+        menuOpciones.setMnemonic('O');
+        agregarMenuItemConAccion(menuOpciones, "Mi Perfil", 'P', e -> mostrarPerfil());
+        menuOpciones.addSeparator();
+        agregarMenuItemConAccion(menuOpciones, "Cerrar Sesión", 'C', e -> cerrarSesion());
 
-        menuBar.add(menuUsuario);
+        menuBar.add(menuOpciones);
 
         // Menú Ayuda
         JMenu menuAyuda = new JMenu("Ayuda");
@@ -127,7 +128,8 @@ public class MainFrame extends JFrame {
     }
 
     private void mostrarPanelAutores() {
-        JOptionPane.showMessageDialog(this, "Panel de Autores - Próximamente", "En Desarrollo", JOptionPane.INFORMATION_MESSAGE);
+        GestionAutoresPanel panel = new GestionAutoresPanel();
+        mostrarPanel(panel);
     }
 
     private void mostrarPanelGeneros() {

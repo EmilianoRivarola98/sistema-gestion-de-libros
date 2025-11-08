@@ -16,6 +16,7 @@ import gui.panels.GestionStockPanel;
 import gui.panels.GestionVentasPanel;
 import gui.panels.GestionSucursalesPanel;
 import gui.panels.GestionPromocionesPanel;
+import gui.panels.GestionReportesPanel;
 
 /**
  * Ventana principal de la aplicación.
@@ -83,10 +84,14 @@ public class MainFrame extends JFrame {
             agregarMenuItemConAccion(menuGestion, "Promociones", 'P', e -> mostrarPanelPromociones());
             menuGestion.addSeparator();
             agregarMenuItemConAccion(menuGestion, "Ventas", 'V', e -> mostrarPanelVentas());
+            menuGestion.addSeparator();
+            agregarMenuItemConAccion(menuGestion, "Reportes", 'R', e -> mostrarPanelReportes());
         } else if (rolUsuario != null && rolUsuario.getNombre().equalsIgnoreCase("Encargado de Ventas")) {
             agregarMenuItemConAccion(menuGestion, "Libros", 'L', e -> mostrarPanelLibros());
             agregarMenuItemConAccion(menuGestion, "Stock", 'S', e -> mostrarPanelStock());
             agregarMenuItemConAccion(menuGestion, "Ventas", 'V', e -> mostrarPanelVentas());
+            menuGestion.addSeparator();
+            agregarMenuItemConAccion(menuGestion, "Reportes", 'R', e -> mostrarPanelReportes());
         }
 
         menuBar.add(menuGestion);
@@ -168,6 +173,11 @@ public class MainFrame extends JFrame {
 
     private void mostrarPanelVentas() {
         GestionVentasPanel panel = new GestionVentasPanel(usuarioActual);
+        mostrarPanel(panel);
+    }
+
+    private void mostrarPanelReportes() {
+        GestionReportesPanel panel = new GestionReportesPanel();
         mostrarPanel(panel);
     }
 

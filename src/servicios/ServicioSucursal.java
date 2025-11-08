@@ -66,7 +66,8 @@ public class ServicioSucursal {
 		JOptionPane.showMessageDialog(null, sb.toString());
 	}
 
-	public Sucursal obtenerPorId(int id) {		return sucursalDAO.obtenerPorId(id);
+	public Sucursal obtenerPorId(int id) {
+		return sucursalDAO.obtenerPorId(id);
 	}
 
 	public List<Sucursal> obtenerTodasLasSucursales() {

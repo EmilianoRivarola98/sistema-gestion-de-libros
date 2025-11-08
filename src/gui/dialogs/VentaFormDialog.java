@@ -347,7 +347,7 @@ public class VentaFormDialog extends JDialog {
             BigDecimal total = subtotal.subtract(descuento);
             FormaPago forma = (FormaPago) comboFormaPago.getSelectedItem();
 
-            Venta venta = new Venta(usuarioActual.getIdUsuario(), forma.getIdFormaPago(), total, subtotal, descuento);
+            Venta venta = new Venta(usuarioActual.getId(), forma.getIdFormaPago(), total, subtotal, descuento);
             Sucursal sucursal = (Sucursal) comboSucursales.getSelectedItem();
 
             boolean resultado = servicioVenta.crearVentaGUI(venta, items, sucursal.getId());

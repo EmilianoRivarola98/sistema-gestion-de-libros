@@ -14,7 +14,6 @@ import servicios.ServicioUsuario;
 import gui.panels.GestionSucursalesPanel;
 import gui.panels.GestionStockPanel;
 import gui.panels.GestionVentasPanel;
-import gui.panels.GestionSucursalesPanel;
 import gui.panels.GestionPromocionesPanel;
 import gui.panels.GestionReportesPanel;
 

@@ -217,6 +217,45 @@ public class VentaDAO {
 				);
 	}
 
+	// Métodos GUI adicionales
+	public int crearVenta(Venta venta) {
+		String sql = "INSERT INTO venta (id_usuario, id_forma, fecha, total, subtotal, descuento) VALUES (?, ?, NOW(), ?, ?, ?)";
+		try (PreparedStatement stmt = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+			stmt.setInt(1, venta.getIdUsuario());
+			stmt.setInt(2, venta.getIdForma());
+			stmt.setBigDecimal(3, venta.getTotal());
+			stmt.setBigDecimal(4, venta.getSubtotal());
+			stmt.setBigDecimal(5, venta.getDescuento());
+			
+			int filasAfectadas = stmt.executeUpdate();
+			if (filasAfectadas > 0) {
+				ResultSet rs = stmt.getGeneratedKeys();
+				if (rs.next()) {
+					return rs.getInt(1);
+				}
+			}
+		} catch (SQLException e) {
+			System.err.println("Error al crear venta: " + e.getMessage());
+		}
+		return -1;
+	}
+
+	public boolean crearDetalle(ItemVenta item) {
+		String sql = "INSERT INTO detalle_venta (id_venta, id_libro, cantidad, precio_unitario, descuento_aplicado) VALUES (?, ?, ?, ?, ?)";
+		try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
+			stmt.setInt(1, item.getIdVenta());
+			stmt.setInt(2, item.getIdLibro());
+			stmt.setInt(3, item.getCantidad());
+			stmt.setBigDecimal(4, item.getPrecioUnitario());
+			stmt.setBigDecimal(5, item.getDescuentoAplicado());
+			
+			int filasAfectadas = stmt.executeUpdate();
+			return filasAfectadas > 0;
+		} catch (SQLException e) {
+			System.err.println("Error al crear detalle de venta: " + e.getMessage());
+		}
+		return false;
+	}
 }
 
 

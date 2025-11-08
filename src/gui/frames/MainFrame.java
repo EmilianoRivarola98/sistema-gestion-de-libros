@@ -12,6 +12,10 @@ import usuarios.Usuario;
 import usuarios.Rol;
 import servicios.ServicioUsuario;
 import gui.panels.GestionSucursalesPanel;
+import gui.panels.GestionStockPanel;
+import gui.panels.GestionVentasPanel;
+import gui.panels.GestionSucursalesPanel;
+import gui.panels.GestionPromocionesPanel;
 
 /**
  * Ventana principal de la aplicación.
@@ -76,6 +80,7 @@ public class MainFrame extends JFrame {
             agregarMenuItemConAccion(menuGestion, "Libros", 'L', e -> mostrarPanelLibros());
             agregarMenuItemConAccion(menuGestion, "Sucursales", 'U', e -> mostrarPanelSucursales());
             agregarMenuItemConAccion(menuGestion, "Stock", 'S', e -> mostrarPanelStock());
+            agregarMenuItemConAccion(menuGestion, "Promociones", 'P', e -> mostrarPanelPromociones());
             menuGestion.addSeparator();
             agregarMenuItemConAccion(menuGestion, "Ventas", 'V', e -> mostrarPanelVentas());
         } else if (rolUsuario != null && rolUsuario.getNombre().equalsIgnoreCase("Encargado de Ventas")) {
@@ -152,11 +157,18 @@ public class MainFrame extends JFrame {
     }
 
     private void mostrarPanelStock() {
-        JOptionPane.showMessageDialog(this, "Panel de Stock - Próximamente", "En Desarrollo", JOptionPane.INFORMATION_MESSAGE);
+        GestionStockPanel panel = new GestionStockPanel();
+        mostrarPanel(panel);
+    }
+
+    private void mostrarPanelPromociones() {
+        GestionPromocionesPanel panel = new GestionPromocionesPanel();
+        mostrarPanel(panel);
     }
 
     private void mostrarPanelVentas() {
-        JOptionPane.showMessageDialog(this, "Panel de Ventas - Próximamente", "En Desarrollo", JOptionPane.INFORMATION_MESSAGE);
+        GestionVentasPanel panel = new GestionVentasPanel(usuarioActual);
+        mostrarPanel(panel);
     }
 
     private void mostrarPerfil() {

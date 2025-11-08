@@ -435,4 +435,62 @@ public class ServicioStock {
 					JOptionPane.ERROR_MESSAGE);
 		}
 	}
+
+	// Métodos para GUI
+	public List<String> obtenerStockPorSucursal(int idSucursal) {
+		return stockDAO.listarStockPorSucursal(idSucursal);
+	}
+
+	public List<Libro> obtenerLibrosConStock(int idSucursal) {
+		return stockDAO.obtenerLibrosConStockPorSucursal(idSucursal);
+	}
+
+	public Integer obtenerStockLibro(int idLibro, int idSucursal) {
+		return stockDAO.obtenerStockPorLibro(idLibro, idSucursal);
+	}
+
+	public boolean agregarStockGUI(int idLibro, int idSucursal, int cantidad) {
+		try {
+			if (cantidad <= 0) {
+				return false;
+			}
+			return stockDAO.agregarStock(idLibro, idSucursal, cantidad);
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	public boolean disminuirStockGUI(int idLibro, int idSucursal, int cantidad) {
+		try {
+			if (cantidad <= 0) {
+				return false;
+			}
+			Integer stockActual = stockDAO.obtenerStockPorLibro(idLibro, idSucursal);
+			if (stockActual == null || stockActual < cantidad) {
+				return false; // No hay suficiente stock
+			}
+			return stockDAO.disminuirStock(idLibro, idSucursal, cantidad);
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	public boolean modificarStockGUI(int idLibro, int idSucursal, int nuevaCantidad) {
+		try {
+			if (nuevaCantidad < 0) {
+				return false;
+			}
+			return stockDAO.modificarStock(idLibro, idSucursal, nuevaCantidad);
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	public boolean eliminarStockGUI(int idLibro, int idSucursal) {
+		try {
+			return stockDAO.eliminarStock(idLibro, idSucursal);
+		} catch (Exception e) {
+			return false;
+		}
+	}
 }

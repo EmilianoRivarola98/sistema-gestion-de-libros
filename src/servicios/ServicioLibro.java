@@ -166,6 +166,38 @@ public class ServicioLibro {
 		return libroDAO.obtenerTodos();
 	}
 
+	public Libro obtenerPorId(int idLibro) {
+		return libroDAO.obtenerLibroPorId(idLibro);
+	}
+
+	public boolean crearLibro(Libro libro) {
+		try {
+			if (libro == null) return false;
+			int idLibro = libroDAO.crearLibro(libro);
+			return idLibro != -1;
+		} catch (Exception ex) {
+			return false;
+		}
+	}
+
+	public boolean actualizarLibro(Libro libro) {
+		try {
+			if (libro == null || libro.getIdLibro() == 0) return false;
+			return libroDAO.actualizarLibro(libro);
+		} catch (Exception ex) {
+			return false;
+		}
+	}
+
+	public boolean eliminarLibro(int idLibro) {
+		try {
+			if (idLibro <= 0) return false;
+			return libroDAO.eliminarLibro(idLibro);
+		} catch (Exception ex) {
+			return false;
+		}
+	}
+
 	private Libro obtenerDatosLibro(Libro libro) {
 		try {
 			String titulo = JOptionPane.showInputDialog("Ingrese el título del libro:", libro != null ? libro.getTitulo() : "");

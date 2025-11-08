@@ -1,13 +1,14 @@
 package app;
 
-import javax.swing.JOptionPane;
-import interfaces.GestionUsuarios;
-import dao.UsuarioDAO;
 import servicios.ServicioSucursal;
 import servicios.ServicioUsuario;
 import usuarios.Rol;
-import usuarios.Usuario;
 import ventas.Sucursal;
+import gui.frames.ConfiguracionInicialFrame;
+import gui.frames.LoginFrame;
+
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 public class IniciarPrograma {
 
@@ -20,38 +21,17 @@ public class IniciarPrograma {
 	}
 
 	public void iniciar() {
+		// Verificar si es la primera vez que se inicia el sistema
 		if (!servicioUsuario.existenUsuarios()) {
-			boolean configurado = configurarSistema();
-			if (!configurado) {
-				JOptionPane.showMessageDialog(null, "La configuración inicial no se completó. El programa se cerrará.", "Error Crítico", JOptionPane.ERROR_MESSAGE);
-				return;
-			}
-		}
-
-		// Bucle del menú principal
-		String[] opciones = { "Iniciar sesion", "Registrarse", "Salir" };
-		int seleccion = 0;
-		while (seleccion != 2) {
-			seleccion = JOptionPane.showOptionDialog(
-					null,
-					"Seleccione una opción",
-					"Sistema Gestion de Libros",
-					JOptionPane.DEFAULT_OPTION,
-					JOptionPane.INFORMATION_MESSAGE,
-					null,
-					opciones,
-					opciones[0]
-					);
-
-			if (seleccion == -1) {
-				seleccion = 2;
-			}
-
-			switch (seleccion) {
-			case 0: new GestionUsuarios().iniciarSesion(); break;
-			case 1: new GestionUsuarios().registrarUsuario(); break;
-			case 2: JOptionPane.showMessageDialog(null, "Gracias, vuelva prontos."); break;
-			}
+			// Mostrar la ventana de configuración inicial
+			SwingUtilities.invokeLater(() -> {
+				new ConfiguracionInicialFrame();
+			});
+		} else {
+			// Mostrar la ventana de login
+			SwingUtilities.invokeLater(() -> {
+				new LoginFrame();
+			});
 		}
 	}
 

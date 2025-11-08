@@ -18,6 +18,25 @@ public class ServicioAutor {
 		return autorDAO.obtenerTodos();
 	}
 
+	// Métodos para GUI (devuelven boolean)
+	public boolean crearAutor(String nombre) {
+		if (nombre == null || nombre.trim().isEmpty()) {
+			return false;
+		}
+		return autorDAO.crearAutor(nombre.trim());
+	}
+
+	public boolean actualizarAutor(int id, String nombre) {
+		if (nombre == null || nombre.trim().isEmpty()) {
+			return false;
+		}
+		return autorDAO.actualizarAutor(id, nombre.trim());
+	}
+
+	public boolean eliminarAutor(int id) {
+		return autorDAO.eliminarAutor(id);
+	}
+
 	public void crearAutor() {
 		String nombre = JOptionPane.showInputDialog("Ingrese el nombre del autor:");
 		if (nombre != null && !nombre.trim().isEmpty()) {

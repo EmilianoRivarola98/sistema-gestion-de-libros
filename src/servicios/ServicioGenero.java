@@ -16,6 +16,25 @@ public class ServicioGenero {
 		return generoDAO.obtenerTodos();
 	}
 
+	// Métodos para GUI (devuelven boolean)
+	public boolean crearGenero(String nombre) {
+		if (nombre == null || nombre.trim().isEmpty()) {
+			return false;
+		}
+		return generoDAO.crearGenero(nombre.trim());
+	}
+
+	public boolean actualizarGenero(int id, String nombre) {
+		if (nombre == null || nombre.trim().isEmpty()) {
+			return false;
+		}
+		return generoDAO.actualizarGenero(id, nombre.trim());
+	}
+
+	public boolean eliminarGenero(int id) {
+		return generoDAO.eliminarGenero(id);
+	}
+
 	public void crearGenero() {
 		String nombre = JOptionPane.showInputDialog("Ingrese el nombre del género:");
 		if (nombre != null && !nombre.trim().isEmpty()) {

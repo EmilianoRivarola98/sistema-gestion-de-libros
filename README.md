@@ -43,3 +43,21 @@ El objetivo principal es reemplazar el sistema actual de gestión de ventas, bas
 ### 🔷 Diagrama de Clases
 
 [Ver PDF de Diagrama de Clases](assets/DIAGRAMA_DE_CLASES_clavijo_debandi_rivarola.pdf)
+
+---
+
+## 📋 Pasos para ejecutar la aplicación
+
+1. **Clonar el repositorio**
+
+   ```bash
+   git clone https://github.com/EmilianoRivarola98/sistema-gestion-de-libros
+   ```
+
+2. **Generar la base de datos**
+
+   - Ejecuta el script SQL ubicado en `assets/Sistema-gestion-libros.sql` para generar migracione
+
+3. **Ejecutar la aplicación**
+   - Una vez compilado, ejecuta la aplicación
+   - Inicia sesión con las credenciales disponibles en la base de datos

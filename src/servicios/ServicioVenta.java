@@ -237,4 +237,61 @@ public class ServicioVenta {
 			JOptionPane.showMessageDialog(null, "Error al anular la venta: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
+
+	// Métodos para GUI
+	public List<FormaPago> obtenerFormasDePago() {
+		return ventaDAO.obtenerFormasDePago();
+	}
+
+	public Venta obtenerVentaPorId(int idVenta) {
+		return ventaDAO.obtenerVentaConDetallesPorId(idVenta);
+	}
+
+	public boolean eliminarVentaGUI(int idVenta) {
+		try {
+			if (idVenta <= 0) {
+				return false;
+			}
+			return ventaDAO.eliminarVenta(idVenta);
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	public Integer obtenerStockLibro(int idLibro, int idSucursal) {
+		try {
+			ServicioStock servicioStock = new ServicioStock();
+			return servicioStock.obtenerStockLibro(idLibro, idSucursal);
+		} catch (Exception e) {
+			return 0;
+		}
+	}
+
+	public boolean crearVentaGUI(Venta venta, java.util.List<ventas.ItemVenta> items, int idSucursal) {
+		try {
+			if (venta == null || items == null || items.isEmpty()) {
+				return false;
+			}
+
+			// Crear la venta
+			int idVenta = ventaDAO.crearVenta(venta);
+			if (idVenta == -1) {
+				return false;
+			}
+
+			// Crear los detalles de venta
+			for (ventas.ItemVenta item : items) {
+				item.setIdVenta(idVenta);
+				ventaDAO.crearDetalle(item);
+
+				// Reducir stock automáticamente
+				ServicioStock servicioStock = new ServicioStock();
+				servicioStock.disminuirStockGUI(item.getIdLibro(), idSucursal, item.getCantidad());
+			}
+
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
 }

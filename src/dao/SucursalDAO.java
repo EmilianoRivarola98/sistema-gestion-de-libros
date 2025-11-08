@@ -73,4 +73,30 @@ public class SucursalDAO {
 		}
 		return sucursales;
 	}
+
+	public boolean actualizar(Sucursal sucursal) {
+		String sql = "UPDATE sucursal SET nombre = ?, direccion = ? WHERE id_sucursal = ?";
+		try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
+			stmt.setString(1, sucursal.getNombre());
+			stmt.setString(2, sucursal.getDireccion());
+			stmt.setInt(3, sucursal.getId());
+			int filasAfectadas = stmt.executeUpdate();
+			return filasAfectadas > 0;
+		} catch (SQLException e) {
+			System.err.println("Error al actualizar la sucursal: " + e.getMessage());
+		}
+		return false;
+	}
+
+	public boolean eliminar(int id) {
+		String sql = "DELETE FROM sucursal WHERE id_sucursal = ?";
+		try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
+			stmt.setInt(1, id);
+			int filasAfectadas = stmt.executeUpdate();
+			return filasAfectadas > 0;
+		} catch (SQLException e) {
+			System.err.println("Error al eliminar la sucursal: " + e.getMessage());
+		}
+		return false;
+	}
 }

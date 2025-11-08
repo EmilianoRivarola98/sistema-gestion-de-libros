@@ -227,7 +227,7 @@ public class ServicioReportes {
                 reporte.append("----------------------------------------\n\n");
 
                 for (usuarios.Usuario usuario : usuarios) {
-                    reporte.append("ID: ").append(usuario.getIdUsuario()).append("\n");
+                    reporte.append("ID: ").append(usuario.getId()).append("\n");
                     reporte.append("  Nombre: ").append(usuario.getNombre()).append("\n");
                     reporte.append("  Email: ").append(usuario.getEmail()).append("\n");
                     reporte.append("  Rol ID: ").append(usuario.getIdRol()).append("\n");

@@ -11,6 +11,7 @@ import gui.panels.GestionLibrosPanel;
 import usuarios.Usuario;
 import usuarios.Rol;
 import servicios.ServicioUsuario;
+import gui.panels.GestionSucursalesPanel;
 
 /**
  * Ventana principal de la aplicación.
@@ -73,6 +74,7 @@ public class MainFrame extends JFrame {
             agregarMenuItemConAccion(menuGestion, "Autores", 'A', e -> mostrarPanelAutores());
             agregarMenuItemConAccion(menuGestion, "Géneros", 'G', e -> mostrarPanelGeneros());
             agregarMenuItemConAccion(menuGestion, "Libros", 'L', e -> mostrarPanelLibros());
+            agregarMenuItemConAccion(menuGestion, "Sucursales", 'U', e -> mostrarPanelSucursales());
             agregarMenuItemConAccion(menuGestion, "Stock", 'S', e -> mostrarPanelStock());
             menuGestion.addSeparator();
             agregarMenuItemConAccion(menuGestion, "Ventas", 'V', e -> mostrarPanelVentas());
@@ -143,7 +145,11 @@ public class MainFrame extends JFrame {
         GestionLibrosPanel panel = new GestionLibrosPanel();
         mostrarPanel(panel);
     }
- 
+
+    private void mostrarPanelSucursales() {
+        GestionSucursalesPanel panel = new GestionSucursalesPanel();
+        mostrarPanel(panel);
+    }
 
     private void mostrarPanelStock() {
         JOptionPane.showMessageDialog(this, "Panel de Stock - Próximamente", "En Desarrollo", JOptionPane.INFORMATION_MESSAGE);

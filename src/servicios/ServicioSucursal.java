@@ -11,6 +11,27 @@ public class ServicioSucursal {
 	public ServicioSucursal() {
 		this.sucursalDAO = new SucursalDAO();
 	}
+	// Métodos GUI-compatible
+	public boolean crearSucursalGUI(String nombre, String direccion) {
+		if (nombre == null || nombre.trim().isEmpty() || direccion == null || direccion.trim().isEmpty()) {
+			return false;
+		}
+		Sucursal sucursal = new Sucursal(nombre, direccion);
+		Sucursal resultado = sucursalDAO.crearSucursal(sucursal);
+		return resultado != null;
+	}
+
+	public boolean actualizarSucursalGUI(int id, String nombre, String direccion) {
+		if (id <= 0 || nombre == null || nombre.trim().isEmpty() || direccion == null || direccion.trim().isEmpty()) {
+			return false;
+		}
+		Sucursal sucursal = new Sucursal(id, nombre, direccion);
+		return sucursalDAO.actualizar(sucursal);
+	}
+
+	public boolean eliminarSucursalGUI(int id) {
+		return sucursalDAO.eliminar(id);
+	}
 
 	public Sucursal crearSucursal(String nombre, String direccion) {
 		if (nombre == null || nombre.trim().isEmpty()) {

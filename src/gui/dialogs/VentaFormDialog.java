@@ -9,11 +9,13 @@ import java.util.List;
 import servicios.ServicioVenta;
 import servicios.ServicioLibro;
 import servicios.ServicioSucursal;
+import servicios.ServicioPromocion;
 import ventas.Venta;
 import ventas.ItemVenta;
 import ventas.Libro;
 import ventas.FormaPago;
 import ventas.Sucursal;
+import ventas.Promocion;
 import usuarios.Usuario;
 
 /**
@@ -27,6 +29,7 @@ public class VentaFormDialog extends JDialog {
     private ServicioVenta servicioVenta;
     private ServicioLibro servicioLibro;
     private ServicioSucursal servicioSucursal;
+    private ServicioPromocion servicioPromocion;
     private List<ItemVenta> items;
 
     private JComboBox<Sucursal> comboSucursales;
@@ -38,6 +41,7 @@ public class VentaFormDialog extends JDialog {
     private JLabel lblDescuento;
     private JLabel lblTotal;
     private JComboBox<FormaPago> comboFormaPago;
+    private JComboBox<Promocion> comboPromocion;
     private JButton btnAgregarItem;
     private JButton btnEliminarItem;
     private JButton btnGuardar;
@@ -50,6 +54,7 @@ public class VentaFormDialog extends JDialog {
         this.servicioVenta = servicioVenta;
         this.servicioLibro = servicioLibro;
         this.servicioSucursal = servicioSucursal;
+        this.servicioPromocion = new ServicioPromocion();
         this.items = new ArrayList<>();
 
         inicializar();
@@ -58,7 +63,7 @@ public class VentaFormDialog extends JDialog {
     }
 
     private void inicializar() {
-        setSize(900, 650);
+        setSize(900, 700);
         setLayout(new BorderLayout(10, 10));
         ((JPanel) getContentPane()).setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
@@ -70,13 +75,9 @@ public class VentaFormDialog extends JDialog {
         JPanel panelItems = crearPanelItems();
         this.add(panelItems, BorderLayout.CENTER);
 
-        // Panel de totales
+        // Panel de totales y forma de pago
         JPanel panelTotales = crearPanelTotales();
         this.add(panelTotales, BorderLayout.SOUTH);
-
-        // Panel de botones
-        JPanel panelBotones = crearPanelBotones();
-        this.add(panelBotones, BorderLayout.SOUTH);
     }
 
     private JPanel crearPanelSucursal() {
@@ -158,7 +159,7 @@ public class VentaFormDialog extends JDialog {
         panel.add(panelEntrada, BorderLayout.NORTH);
 
         // Tabla de items
-        String[] columnas = {"ID Libro", "Título", "Cantidad", "Precio Unit.", "Subtotal"};
+        String[] columnas = {"ID Libro", "Título", "Cantidad", "Precio Unit.", "Descuento", "Subtotal"};
         modeloTabla = new DefaultTableModel(columnas, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -167,41 +168,69 @@ public class VentaFormDialog extends JDialog {
         };
 
         tablaItems = new JTable(modeloTabla);
-        tablaItems.setRowHeight(25);
-
         JScrollPane scrollPane = new JScrollPane(tablaItems);
-        scrollPane.setPreferredSize(new Dimension(850, 250));
-
         panel.add(scrollPane, BorderLayout.CENTER);
 
         // Botón eliminar
-        JPanel panelAcciones = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        panelAcciones.setBackground(Color.WHITE);
-        btnEliminarItem = new JButton("Eliminar Seleccionado");
+        JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        panelBotones.setBackground(Color.WHITE);
+        btnEliminarItem = new JButton("Eliminar Item");
         btnEliminarItem.addActionListener(e -> eliminarItem());
-        panelAcciones.add(btnEliminarItem);
-
-        panel.add(panelAcciones, BorderLayout.SOUTH);
+        panelBotones.add(btnEliminarItem);
+        panel.add(panelBotones, BorderLayout.SOUTH);
 
         return panel;
     }
 
     private JPanel crearPanelTotales() {
-        JPanel panel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 20, 10));
+        JPanel panel = new JPanel(new BorderLayout(10, 10));
         panel.setBackground(Color.WHITE);
-        panel.setBorder(BorderFactory.createTitledBorder("Resumen"));
+        panel.setBorder(BorderFactory.createTitledBorder("Resumen de Venta"));
 
+        // Panel de totales
+        JPanel panelCalculos = new JPanel(new GridBagLayout());
+        panelCalculos.setBackground(Color.WHITE);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 10, 5, 10);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+        // Subtotal
         lblSubtotal = new JLabel("Subtotal: $0.00");
         lblSubtotal.setFont(new Font("Arial", Font.BOLD, 12));
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.EAST;
+        panelCalculos.add(lblSubtotal, gbc);
 
+        // Descuento
         lblDescuento = new JLabel("Descuento: $0.00");
         lblDescuento.setFont(new Font("Arial", Font.BOLD, 12));
+        gbc.gridy = 1;
+        panelCalculos.add(lblDescuento, gbc);
 
+        // Total
         lblTotal = new JLabel("Total: $0.00");
         lblTotal.setFont(new Font("Arial", Font.BOLD, 14));
         lblTotal.setForeground(new Color(0, 100, 0));
+        gbc.gridy = 2;
+        panelCalculos.add(lblTotal, gbc);
 
+        panel.add(panelCalculos, BorderLayout.WEST);
+
+        // Panel de forma de pago y promoción
+        JPanel panelPago = new JPanel(new GridBagLayout());
+        panelPago.setBackground(Color.WHITE);
+        gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+        // Forma de pago
         JLabel lblForma = new JLabel("Forma de Pago:");
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.WEST;
+        panelPago.add(lblForma, gbc);
+
         comboFormaPago = new JComboBox<>();
         try {
             List<FormaPago> formas = servicioVenta.obtenerFormasDePago();
@@ -212,20 +241,38 @@ public class VentaFormDialog extends JDialog {
             JOptionPane.showMessageDialog(this, "Error al cargar formas de pago: " + ex.getMessage(), 
                     "Error", JOptionPane.ERROR_MESSAGE);
         }
+        gbc.gridx = 1;
+        gbc.weightx = 1.0;
+        panelPago.add(comboFormaPago, gbc);
 
-        panel.add(lblSubtotal);
-        panel.add(lblDescuento);
-        panel.add(lblTotal);
-        panel.add(new JSeparator(JSeparator.VERTICAL));
-        panel.add(lblForma);
-        panel.add(comboFormaPago);
+        // Promoción
+        JLabel lblPromocion = new JLabel("Promoción:");
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.weightx = 0;
+        panelPago.add(lblPromocion, gbc);
 
-        return panel;
-    }
+        comboPromocion = new JComboBox<>();
+        comboPromocion.addItem(null); // Opción "Sin promoción"
+        try {
+            List<Promocion> promociones = servicioPromocion.obtenerTodas();
+            for (Promocion promo : promociones) {
+                comboPromocion.addItem(promo);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error al cargar promociones: " + ex.getMessage(), 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        comboPromocion.addActionListener(e -> aplicarPromocion());
+        gbc.gridx = 1;
+        gbc.weightx = 1.0;
+        panelPago.add(comboPromocion, gbc);
 
-    private JPanel crearPanelBotones() {
-        JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
-        panel.setBackground(Color.WHITE);
+        panel.add(panelPago, BorderLayout.CENTER);
+
+        // Botones de acción
+        JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        panelBotones.setBackground(Color.WHITE);
 
         btnGuardar = new JButton("Guardar Venta");
         btnGuardar.setPreferredSize(new Dimension(120, 35));
@@ -235,8 +282,10 @@ public class VentaFormDialog extends JDialog {
         btnCancelar.setPreferredSize(new Dimension(120, 35));
         btnCancelar.addActionListener(e -> dispose());
 
-        panel.add(btnGuardar);
-        panel.add(btnCancelar);
+        panelBotones.add(btnGuardar);
+        panelBotones.add(btnCancelar);
+
+        panel.add(panelBotones, BorderLayout.SOUTH);
 
         return panel;
     }
@@ -278,6 +327,7 @@ public class VentaFormDialog extends JDialog {
                     libro.getTitulo(),
                     cantidad,
                     String.format("$%.2f", libro.getPrecio()),
+                    String.format("$%.2f", BigDecimal.ZERO),
                     String.format("$%.2f", subtotal)
             });
 
@@ -293,13 +343,45 @@ public class VentaFormDialog extends JDialog {
     private void eliminarItem() {
         int filaSeleccionada = tablaItems.getSelectedRow();
         if (filaSeleccionada == -1) {
-            JOptionPane.showMessageDialog(this, "Por favor seleccione un item para eliminar", 
+            JOptionPane.showMessageDialog(this, "Seleccione un item para eliminar", 
                     "Advertencia", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         items.remove(filaSeleccionada);
         modeloTabla.removeRow(filaSeleccionada);
+        actualizarTotales();
+    }
+
+    private void aplicarPromocion() {
+        Promocion promocion = (Promocion) comboPromocion.getSelectedItem();
+        
+        if (promocion == null) {
+            // Sin promoción, limpiar descuentos
+            for (int i = 0; i < items.size(); i++) {
+                items.get(i).setDescuentoAplicado(BigDecimal.ZERO);
+                modeloTabla.setValueAt(String.format("$%.2f", BigDecimal.ZERO), i, 4);
+            }
+        } else {
+            // Aplicar descuento de la promoción
+            BigDecimal porcentajeDescuento = promocion.getDescuento().divide(new BigDecimal(100));
+            
+            for (int i = 0; i < items.size(); i++) {
+                ItemVenta item = items.get(i);
+                BigDecimal descuentoUnitario = item.getPrecioUnitario().multiply(porcentajeDescuento);
+                item.setDescuentoAplicado(descuentoUnitario);
+                
+                // Actualizar tabla
+                BigDecimal descuentoTotal = descuentoUnitario.multiply(BigDecimal.valueOf(item.getCantidad()));
+                modeloTabla.setValueAt(String.format("$%.2f", descuentoTotal), i, 4);
+                
+                // Actualizar subtotal
+                BigDecimal precioConDescuento = item.getPrecioUnitario().subtract(descuentoUnitario);
+                BigDecimal subtotalItem = precioConDescuento.multiply(BigDecimal.valueOf(item.getCantidad()));
+                modeloTabla.setValueAt(String.format("$%.2f", subtotalItem), i, 5);
+            }
+        }
+        
         actualizarTotales();
     }
 
@@ -345,6 +427,7 @@ public class VentaFormDialog extends JDialog {
             }
 
             BigDecimal total = subtotal.subtract(descuento);
+
             FormaPago forma = (FormaPago) comboFormaPago.getSelectedItem();
 
             Venta venta = new Venta(usuarioActual.getId(), forma.getIdFormaPago(), total, subtotal, descuento);

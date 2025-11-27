@@ -96,11 +96,10 @@ public class MainFrame extends JFrame {
 			menuGestion.addSeparator();
 			agregarMenuItemConAccion(menuGestion, "Reportes", 'R', e -> mostrarPanelReportes());
 		} else if (rolUsuario != null && rolUsuario.getNombre().equalsIgnoreCase("Encargado de Ventas")) {
-			agregarMenuItemConAccion(menuGestion, "Libros", 'L', e -> mostrarPanelLibros());
-			agregarMenuItemConAccion(menuGestion, "Stock", 'S', e -> mostrarPanelStock());
-			agregarMenuItemConAccion(menuGestion, "Ventas", 'V', e -> mostrarPanelVentas());
-			menuGestion.addSeparator();
-			agregarMenuItemConAccion(menuGestion, "Reportes", 'R', e -> mostrarPanelReportes());
+		    // Solo permitir consultar libros (sin editar)
+		    agregarMenuItemConAccion(menuGestion, "Consultar Libros", 'C', e -> mostrarPanelLibros());
+		    agregarMenuItemConAccion(menuGestion, "Consultar Stock", 'C', e -> mostrarPanelStock());
+		    agregarMenuItemConAccion(menuGestion, "Ventas", 'V', e -> mostrarPanelVentas());
 		}
 
 		menuBar.add(menuGestion);
@@ -152,7 +151,9 @@ public class MainFrame extends JFrame {
 	}
 
 	private void mostrarPanelLibros() {
-		GestionLibrosPanel panel = new GestionLibrosPanel();
+		// Vendedor tiene solo lectura
+		boolean soloLectura = rolUsuario != null && rolUsuario.getNombre().equalsIgnoreCase("Encargado de Ventas");
+		GestionLibrosPanel panel = new GestionLibrosPanel(soloLectura);
 		mostrarPanel(panel);
 	}
 
@@ -162,10 +163,11 @@ public class MainFrame extends JFrame {
 	}
 
 	private void mostrarPanelStock() {
-		GestionStockPanel panel = new GestionStockPanel();
+		// Vendedor tiene solo lectura
+		boolean soloLectura = rolUsuario != null && rolUsuario.getNombre().equalsIgnoreCase("Encargado de Ventas");
+		GestionStockPanel panel = new GestionStockPanel(soloLectura);
 		mostrarPanel(panel);
 	}
-
 	private void mostrarPanelPromociones() {
 		GestionPromocionesPanel panel = new GestionPromocionesPanel();
 		mostrarPanel(panel);

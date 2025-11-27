@@ -75,6 +75,94 @@ public class LibroDAO {
 		return libros;
 	}
 
+	public List<Libro> buscarLibrosPorAutor(String nombreAutor) {
+	    List<Libro> libros = new ArrayList<>();
+	    String sql = "SELECT l.*, a.nombre AS nombre_autor, g.nombre AS nombre_genero FROM libro l " +
+	                 "JOIN autor a ON l.id_autor = a.id_autor " +
+	                 "JOIN genero g ON l.id_genero = g.id_genero " +
+	                 "WHERE LOWER(a.nombre) LIKE ?";
+	    
+	    try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
+	        stmt.setString(1, "%" + nombreAutor.toLowerCase() + "%");
+	        ResultSet rs = stmt.executeQuery();
+	        
+	        while (rs.next()) {
+	            libros.add(new Libro(
+	                rs.getInt("id_libro"),
+	                rs.getString("titulo"),
+	                rs.getInt("id_autor"),
+	                rs.getInt("id_genero"),
+	                rs.getString("isbn"),
+	                rs.getBigDecimal("precio"),
+	                rs.getDate("fecha_lanzamiento"),
+	                rs.getString("nombre_autor"),
+	                rs.getString("nombre_genero")
+	            ));
+	        }
+	    } catch (SQLException e) {
+	        System.err.println("Error al buscar libros por autor: " + e.getMessage());
+	    }
+	    return libros;
+	}
+
+	public List<Libro> buscarLibrosPorGenero(String nombreGenero) {
+	    List<Libro> libros = new ArrayList<>();
+	    String sql = "SELECT l.*, a.nombre AS nombre_autor, g.nombre AS nombre_genero FROM libro l " +
+	                 "JOIN autor a ON l.id_autor = a.id_autor " +
+	                 "JOIN genero g ON l.id_genero = g.id_genero " +
+	                 "WHERE LOWER(g.nombre) LIKE ?";
+	    
+	    try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
+	        stmt.setString(1, "%" + nombreGenero.toLowerCase() + "%");
+	        ResultSet rs = stmt.executeQuery();
+	        
+	        while (rs.next()) {
+	            libros.add(new Libro(
+	                rs.getInt("id_libro"),
+	                rs.getString("titulo"),
+	                rs.getInt("id_autor"),
+	                rs.getInt("id_genero"),
+	                rs.getString("isbn"),
+	                rs.getBigDecimal("precio"),
+	                rs.getDate("fecha_lanzamiento"),
+	                rs.getString("nombre_autor"),
+	                rs.getString("nombre_genero")
+	            ));
+	        }
+	    } catch (SQLException e) {
+	        System.err.println("Error al buscar libros por género: " + e.getMessage());
+	    }
+	    return libros;
+	}
+
+	public Libro buscarLibroPorIsbn(String isbn) {
+	    String sql = "SELECT l.*, a.nombre AS nombre_autor, g.nombre AS nombre_genero FROM libro l " +
+	                 "JOIN autor a ON l.id_autor = a.id_autor " +
+	                 "JOIN genero g ON l.id_genero = g.id_genero " +
+	                 "WHERE l.isbn = ?";
+	    
+	    try (PreparedStatement stmt = conexion.prepareStatement(sql)) {
+	        stmt.setString(1, isbn);
+	        ResultSet rs = stmt.executeQuery();
+	        
+	        if (rs.next()) {
+	            return new Libro(
+	                rs.getInt("id_libro"),
+	                rs.getString("titulo"),
+	                rs.getInt("id_autor"),
+	                rs.getInt("id_genero"),
+	                rs.getString("isbn"),
+	                rs.getBigDecimal("precio"),
+	                rs.getDate("fecha_lanzamiento"),
+	                rs.getString("nombre_autor"),
+	                rs.getString("nombre_genero")
+	            );
+	        }
+	    } catch (SQLException e) {
+	        System.err.println("Error al buscar libro por ISBN: " + e.getMessage());
+	    }
+	    return null;
+	}
 	public int crearLibro(Libro libro) {
 		String sql = "INSERT INTO libro (titulo, id_autor, id_genero, isbn, precio, fecha_lanzamiento) VALUES (?, ?, ?, ?, ?, ?)";
 		try (PreparedStatement stmt = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {

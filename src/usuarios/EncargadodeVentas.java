@@ -10,13 +10,11 @@ import javax.swing.JOptionPane;
 public class EncargadodeVentas extends Usuario implements Menu {
 	private ServicioVenta servicioVenta;
 	private ServicioLibro servicioLibro;
-	private ServicioStock servicioStock;
 	
 	public EncargadodeVentas(int id, String nombre, String email, String password, int idRol, int idSucursal) {
 		super(id, nombre, email, password, idRol, idSucursal);
 		this.servicioVenta = new ServicioVenta();
 		this.servicioLibro = new ServicioLibro();
-		this.servicioStock = new ServicioStock();
 	}
 
 	@Override

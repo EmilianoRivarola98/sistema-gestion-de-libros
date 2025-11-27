@@ -29,9 +29,15 @@ public class GestionStockPanel extends BasePanel {
     private JButton btnRefrescar;
     private JComboBox<Sucursal> comboSucursales;
     private Sucursal sucursalSeleccionada;
+    private boolean soloLectura;
 
     public GestionStockPanel() {
+        this(false);
+    }
+
+    public GestionStockPanel(boolean soloLectura) {
         super(new BorderLayout(10, 10));
+        this.soloLectura = soloLectura;
         this.servicioStock = new ServicioStock();
         this.servicioSucursal = new ServicioSucursal();
         this.servicioLibro = new ServicioLibro();
@@ -83,7 +89,12 @@ public class GestionStockPanel extends BasePanel {
         // Crear modelo de tabla
         String[] columnas = {"ID Libro", "Título", "Autor", "ISBN", "Cantidad"};
         modeloTabla = new DefaultTableModel(columnas, 0) {
-            @Override
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
@@ -108,30 +119,34 @@ public class GestionStockPanel extends BasePanel {
         panel.setBackground(Color.WHITE);
         panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
 
-        btnAgregar = new JButton("Agregar Stock");
-        btnAgregar.setPreferredSize(new Dimension(140, 35));
-        btnAgregar.addActionListener(e -> agregarStock());
+        // Solo mostrar botones de edición si no es modo solo lectura
+        if (!soloLectura) {
+            btnAgregar = new JButton("Agregar Stock");
+            btnAgregar.setPreferredSize(new Dimension(140, 35));
+            btnAgregar.addActionListener(e -> agregarStock());
 
-        btnDisminuir = new JButton("Disminuir Stock");
-        btnDisminuir.setPreferredSize(new Dimension(140, 35));
-        btnDisminuir.addActionListener(e -> disminuirStock());
+            btnDisminuir = new JButton("Disminuir Stock");
+            btnDisminuir.setPreferredSize(new Dimension(140, 35));
+            btnDisminuir.addActionListener(e -> disminuirStock());
 
-        btnModificar = new JButton("Modificar");
-        btnModificar.setPreferredSize(new Dimension(140, 35));
-        btnModificar.addActionListener(e -> modificarStock());
+            btnModificar = new JButton("Modificar");
+            btnModificar.setPreferredSize(new Dimension(140, 35));
+            btnModificar.addActionListener(e -> modificarStock());
 
-        btnEliminar = new JButton("Eliminar Stock");
-        btnEliminar.setPreferredSize(new Dimension(140, 35));
-        btnEliminar.addActionListener(e -> eliminarStock());
+            btnEliminar = new JButton("Eliminar Stock");
+            btnEliminar.setPreferredSize(new Dimension(140, 35));
+            btnEliminar.addActionListener(e -> eliminarStock());
+
+            panel.add(btnAgregar);
+            panel.add(btnDisminuir);
+            panel.add(btnModificar);
+            panel.add(btnEliminar);
+        }
 
         btnRefrescar = new JButton("Refrescar");
         btnRefrescar.setPreferredSize(new Dimension(140, 35));
         btnRefrescar.addActionListener(e -> refrescar());
 
-        panel.add(btnAgregar);
-        panel.add(btnDisminuir);
-        panel.add(btnModificar);
-        panel.add(btnEliminar);
         panel.add(btnRefrescar);
 
         return panel;
@@ -171,6 +186,7 @@ public class GestionStockPanel extends BasePanel {
         cargarStock();
     }
 
+    
     private void cargarStock() {
         try {
             modeloTabla.setRowCount(0);
@@ -400,6 +416,7 @@ public class GestionStockPanel extends BasePanel {
                     JOptionPane.ERROR_MESSAGE);
         }
     }
+
 
     private void eliminarStock() {
         int filaSeleccionada = tablaStock.getSelectedRow();

@@ -7,6 +7,8 @@ import ventas.Libro;
 import ventas.Sucursal;
 
 import javax.swing.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class ServicioLibro {
@@ -79,6 +81,22 @@ public class ServicioLibro {
 		}
 	}
 
+	public List<Libro> buscarPorAutor(String nombreAutor) {
+	    return libroDAO.buscarLibrosPorAutor(nombreAutor);
+	}
+
+	public List<Libro> buscarPorGenero(String nombreGenero) {
+	    return libroDAO.buscarLibrosPorGenero(nombreGenero);
+	}
+
+	public List<Libro> buscarPorIsbn(String isbn) {
+	    List<Libro> resultado = new ArrayList<>();
+	    Libro libro = libroDAO.buscarLibroPorIsbn(isbn);
+	    if (libro != null) {
+	        resultado.add(libro);
+	    }
+	    return resultado;
+	}
 	public void crearLibro() {
 		Libro libro = obtenerDatosLibro(null);
 		if (libro != null) {

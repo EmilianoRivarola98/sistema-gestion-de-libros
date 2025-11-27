@@ -4,15 +4,11 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.math.BigDecimal;
-import java.sql.Date;
 import java.util.List;
 import servicios.ServicioLibro;
 import servicios.ServicioAutor;
 import servicios.ServicioGenero;
 import ventas.Libro;
-import ventas.Autor;
-import ventas.Genero;
 import gui.dialogs.LibroFormDialog;
 
 /**
@@ -33,9 +29,16 @@ public class GestionLibrosPanel extends BasePanel {
     private JButton btnRefrescar;
     private JButton btnBuscar;
     private JTextField campoBusqueda;
+    private JComboBox<String> comboCriterio;
+    private boolean soloLectura;
 
     public GestionLibrosPanel() {
+        this(false);
+    }
+
+    public GestionLibrosPanel(boolean soloLectura) {
         super(new BorderLayout(10, 10));
+        this.soloLectura = soloLectura;
         this.servicioLibro = new ServicioLibro();
         this.servicioAutor = new ServicioAutor();
         this.servicioGenero = new ServicioGenero();
@@ -73,11 +76,19 @@ public class GestionLibrosPanel extends BasePanel {
         JPanel panelBusqueda = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 0));
         panelBusqueda.setBackground(Color.WHITE);
 
-        JLabel lblBuscar = new JLabel("Buscar:");
+        JLabel lblCriterio = new JLabel("Buscar por:");
+        comboCriterio = new JComboBox<>(new String[]{"Todos", "Título", "Autor", "Género", "ISBN"});
+        comboCriterio.setPreferredSize(new Dimension(100, 25));
+
+        JLabel lblBuscar = new JLabel();
         campoBusqueda = new JTextField(20);
+        campoBusqueda.addActionListener(this::buscar); 
+        
         btnBuscar = new JButton("Buscar");
         btnBuscar.addActionListener(this::buscar);
 
+        panelBusqueda.add(lblCriterio);
+        panelBusqueda.add(comboCriterio);
         panelBusqueda.add(lblBuscar);
         panelBusqueda.add(campoBusqueda);
         panelBusqueda.add(btnBuscar);
@@ -119,25 +130,29 @@ public class GestionLibrosPanel extends BasePanel {
         panel.setBackground(Color.WHITE);
         panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
 
-        btnCrear = new JButton("Crear Libro");
-        btnCrear.setPreferredSize(new Dimension(140, 35));
-        btnCrear.addActionListener(e -> crearLibro());
+        // Solo mostrar botones de edición si no es modo solo lectura
+        if (!soloLectura) {
+            btnCrear = new JButton("Crear Libro");
+            btnCrear.setPreferredSize(new Dimension(140, 35));
+            btnCrear.addActionListener(e -> crearLibro());
 
-        btnEditar = new JButton("Editar Libro");
-        btnEditar.setPreferredSize(new Dimension(140, 35));
-        btnEditar.addActionListener(e -> editarLibro());
+            btnEditar = new JButton("Editar Libro");
+            btnEditar.setPreferredSize(new Dimension(140, 35));
+            btnEditar.addActionListener(e -> editarLibro());
 
-        btnEliminar = new JButton("Eliminar Libro");
-        btnEliminar.setPreferredSize(new Dimension(140, 35));
-        btnEliminar.addActionListener(e -> eliminarLibro());
+            btnEliminar = new JButton("Eliminar Libro");
+            btnEliminar.setPreferredSize(new Dimension(140, 35));
+            btnEliminar.addActionListener(e -> eliminarLibro());
+
+            panel.add(btnCrear);
+            panel.add(btnEditar);
+            panel.add(btnEliminar);
+        }
 
         btnRefrescar = new JButton("Refrescar");
         btnRefrescar.setPreferredSize(new Dimension(140, 35));
         btnRefrescar.addActionListener(e -> refrescar());
 
-        panel.add(btnCrear);
-        panel.add(btnEditar);
-        panel.add(btnEliminar);
         panel.add(btnRefrescar);
 
         return panel;
@@ -269,11 +284,36 @@ public class GestionLibrosPanel extends BasePanel {
         try {
             modeloTabla.setRowCount(0);
             List<Libro> libros = servicioLibro.obtenerTodos();
+            String criterio = (String) comboCriterio.getSelectedItem();
+            boolean encontrado = false;
 
             for (Libro libro : libros) {
-                if (libro.getTitulo().toLowerCase().contains(busqueda.toLowerCase()) ||
-                    libro.getIsbn().toLowerCase().contains(busqueda.toLowerCase())) {
-                    
+                boolean coincide = false;
+
+                switch (criterio) {
+                    case "Todos":
+                        coincide = libro.getTitulo().toLowerCase().contains(busqueda.toLowerCase()) ||
+                                   libro.getIsbn().toLowerCase().contains(busqueda.toLowerCase()) ||
+                                   (libro.getNombreAutor() != null && libro.getNombreAutor().toLowerCase().contains(busqueda.toLowerCase())) ||
+                                   (libro.getNombreGenero() != null && libro.getNombreGenero().toLowerCase().contains(busqueda.toLowerCase()));
+                        break;
+                    case "Título":
+                        coincide = libro.getTitulo().toLowerCase().contains(busqueda.toLowerCase());
+                        break;
+                    case "Autor":
+                        coincide = libro.getNombreAutor() != null && 
+                                   libro.getNombreAutor().toLowerCase().contains(busqueda.toLowerCase());
+                        break;
+                    case "Género":
+                        coincide = libro.getNombreGenero() != null && 
+                                   libro.getNombreGenero().toLowerCase().contains(busqueda.toLowerCase());
+                        break;
+                    case "ISBN":
+                        coincide = libro.getIsbn().toLowerCase().contains(busqueda.toLowerCase());
+                        break;
+                }
+
+                if (coincide) {
                     modeloTabla.addRow(new Object[]{
                             libro.getIdLibro(),
                             libro.getTitulo(),
@@ -282,12 +322,13 @@ public class GestionLibrosPanel extends BasePanel {
                             libro.getIsbn(),
                             libro.getPrecio()
                     });
+                    encontrado = true;
                 }
             }
 
-            if (modeloTabla.getRowCount() == 0) {
+            if (!encontrado) {
                 JOptionPane.showMessageDialog(this,
-                        "No se encontraron libros con '" + busqueda + "'",
+                        "No se encontraron libros con el criterio '" + criterio + "' que contenga: '" + busqueda + "'",
                         "Búsqueda",
                         JOptionPane.INFORMATION_MESSAGE);
                 refrescar();
